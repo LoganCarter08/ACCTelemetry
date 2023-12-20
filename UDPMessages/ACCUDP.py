@@ -6,8 +6,10 @@ import io
 
 try: 
     from .RegistrationResult import RegistrationResult 
+    from .RealtimeUpdate import RealtimeUpdate
 except: 
     from RegistrationResult import RegistrationResult 
+    from RealtimeUpdate import RealtimeUpdate
 
 class ACCUDP():
     def __init__(self, aIP, aPort, aDisplayName, aConnectionPassword, aCommandPassword = ""):
@@ -20,7 +22,7 @@ class ACCUDP():
         # every time we get a new message of the following types these fields will 
         # be updated so the user can have quick and easy access 
         self.registrationResult = RegistrationResult(None)
-        self.realTimeUpdate = None 
+        self.realTimeUpdate = RealtimeUpdate(None)
         self.realTimeCarUpdate = None 
         self.entryList = None 
         self.trackData = None 
@@ -80,9 +82,10 @@ class ACCUDP():
         data = aData[0]
         match int.from_bytes(data[0:1], "little"):
             case 1:
-                self.registrationResult = RegistrationResult(data)
+                self.registrationResult.parsePacket(data)
             case 2:
                 print("Realtime Update")
+                self.realTimeUpdate.parsePacket(data)
             case 3: 
                 print("Realtime Car Update")
             case 4: 

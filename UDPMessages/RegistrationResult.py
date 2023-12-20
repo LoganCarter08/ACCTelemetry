@@ -5,8 +5,6 @@ class RegistrationResult:
         self.connectionSuccess = None 
         self.isReadOnly = None 
         self.errorMessage = None 
-        errorMessageLen = -1
-
         # used for the initial state 
         if aPacket == None: 
             return 
